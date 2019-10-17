@@ -1,57 +1,38 @@
-#include "stdio.h"
-#include "stdlib.h"
-struct process
+#include<stdio.h>
+#include<conio.h>
+void main()
 {
-	int process_id;
-	int arrival_time;
-	int burst_time;
-	int waiting_time;
-	int turn_around_time;
-};
-int main()
+int nop,wt[10],twt,tat[10],ttat,i,j,bt[10],t;
+float awt,atat;
+clrscr();
+awt=0.0;
+atat=0.0;
+printf("Enter the no.of process:");
+scanf("%d",&nop);
+for(i=0;i<nop;i++)
 {
-	int n,i;
-	printf("Enter number of processes: ");
-	scanf("%d",&n);
-	struct process proc[n];
-	for(i=0;i<n;i++)
-	{
-		printf("\n");
-		printf("Enter arrival time for process%d: ",i+1);
-		scanf("%d",&proc[i].arrival_time);
-		printf("Enter burst time for process%d: ",i+1);
-		scanf("%d",&proc[i].burst_time);
-		proc[i].process_id = i+1;
-	}
-	int service_time[n];
-	service_time[0]=0;
-	proc[0].waiting_time=0;	
-
-	for(i=1;i<n;i++)
-	{
-		service_time[i]=service_time[i-1]+proc[i-1].burst_time;
-		proc[i].waiting_time = service_time[i]-proc[i].arrival_time;
-
-		if(proc[i].waiting_time<0)
-			proc[i].waiting_time=0;
-	}
-
-	for(i=0;i<n;i++)
-	{
-		proc[i].turn_around_time = proc[i].burst_time + proc[i].waiting_time;
-	}
-	printf("\n\n");
-	printf("Process\tBurst Time\tArrival Time\tWaiting Time\tTurn-Around Time\tCompletion Time\n");
-	int total_waiting_time=0,total_turn_around_time=0;
-	for(i=0;i<n;i++)
-	{
-		total_waiting_time+=proc[i].waiting_time;
-		total_turn_around_time+=proc[i].turn_around_time;
-
-		int completion_time=proc[i].turn_around_time + proc[i].arrival_time;
-
-		printf("%d\t\t%d\t\t%d\t\t%d\t\t%d\t\t%d\n",proc[i].process_id,proc[i].burst_time, proc[i].arrival_time, proc[i].waiting_time,proc[i].turn_around_time,completion_time);
-	}
-	printf("Average waiting time: %f\n", (float)total_waiting_time/n);
-	printf("Average turn around time: %f\n",(float)total_turn_around_time/n);
+printf("Enter the burst time for process %d: ", i);
+scanf("%d",&bt[i]);
+}
+wt[0]=0;
+tat[0]=bt[0];
+twt=wt[0];
+ttat=tat[0];
+for(i=1;i<nop;i++)
+{
+wt[i]=wt[i-1]+bt[i-1];
+tat[i]=wt[i]+bt[i];
+twt+=wt[i];
+ttat+=tat[i];
+}
+awt=(float)twt/nop;
+atat=(float)ttat/nop;
+printf("\nProcessid\tBurstTime\tWaitingTime\tTurnaroundTime\n");
+for(i=0;i<nop;i++)
+printf("%d\t\t%d\t\t%d\t\t%d\n",i,bt[i],wt[i],tat[i]);
+printf("\nTotal Waiting Time:%d\n",twt);
+printf("\nTotal Around Time:%d\n",ttat);
+printf("\nAverage Waiting Time:%f\n",awt);
+printf("\nAverage Total Around Time:%f\n",atat);
+getch();
 }
