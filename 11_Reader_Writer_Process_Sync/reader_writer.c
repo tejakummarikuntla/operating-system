@@ -1,6 +1,6 @@
 #include<stdio.h>
-#include<process.h>
 #include<conio.h>
+#include<process.h>
 void main()
 {
 typedef int semaphore;
